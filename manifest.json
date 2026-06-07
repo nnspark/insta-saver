@@ -14,7 +14,7 @@
     }
   ],
   "share_target": {
-    "action": "./index.html",
+    "action": "https://nnspark.github.io/insta-saver/",
     "method": "GET",
     "params": {
       "title": "title",

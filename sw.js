@@ -1,10 +1,18 @@
-const CACHE_NAME = 'insta-saver-v1';
-const ASSETS = ['./index.html', './manifest.json'];
+const CACHE_NAME = 'insta-saver-v2';
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+self.addEventListener('activate', (event) => {
+  event.waitUntil(clients.claim());
+});
+
+// CRITICAL: Chrome requires a functional fetch handler to allow native "Install App" triggers
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
+  );
 });
